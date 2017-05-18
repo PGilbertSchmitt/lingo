@@ -36,18 +36,19 @@ const (
 // Consonant represents a minimal pulmonic consonant sound
 // (as per Wikipedia's IPA table)
 type Consonant struct {
-	code    rune
-	method  ArticulationMethod
-	point   ArticulationPoint
-	voicing bool
+	code   rune
+	method ArticulationMethod
+	point  ArticulationPoint
+	voiced bool
 }
 
-// New returns a new Consonant
-func New(method ArticulationMethod, point ArticulationPoint, voicing bool) Consonant {
+// NewConsonant does the obvious
+func NewConsonant(code rune, voiced bool, point ArticulationPoint, method ArticulationMethod) Consonant {
 	return Consonant{
-		method:  method,
-		point:   point,
-		voicing: voicing,
+		code:   code,
+		voiced: voiced,
+		point:  point,
+		method: method,
 	}
 }
 

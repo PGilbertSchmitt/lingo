@@ -36,6 +36,16 @@ type Vowel struct {
 	rounded   bool
 }
 
+// NewVowel does what you think it does
+func NewVowel(code rune, rounded bool, frontness Frontness, openness Openness) Vowel {
+	return Vowel{
+		code:      code,
+		rounded:   rounded,
+		frontness: frontness,
+		openness:  openness,
+	}
+}
+
 // Char returns the unicode code point for the appropriate
 // IPA character
 func (v Vowel) Char() rune {
