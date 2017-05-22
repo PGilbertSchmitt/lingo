@@ -1,11 +1,23 @@
 package phonology
 
+// Voicing is the voicing of a consonant
+type Voicing int
+
+// The different voicings of a consonant. Nilvoice represents irrelevant voicing
+const (
+	Nilvoice Voicing = iota
+	Voiced
+	Unvoiced
+)
+
 // ArticulationPoint describes where the sound is made
 type ArticulationPoint int
 
-// This enum represents all reasonable points of articulation
+// This enum represents all reasonable points of articulation. Nopoint
+// is used for filtering
 const (
-	Bilabial ArticulationPoint = iota
+	Nopoint ArticulationPoint = iota
+	Bilabial
 	Labiodental
 	Dental
 	Alveolar
@@ -21,9 +33,11 @@ const (
 // ArticulationMethod describes how the sound is made
 type ArticulationMethod int
 
-// This enum represents all reasonable methods of articulation
+// This enum represents all reasonable methods of articulation. Nomethod
+// is used for filtering
 const (
-	Plosive ArticulationMethod = iota
+	Nomethod ArticulationMethod = iota
+	Plosive
 	Nasal
 	Trill
 	Flap
@@ -39,14 +53,16 @@ type Consonant struct {
 	code   rune
 	method ArticulationMethod
 	point  ArticulationPoint
-	voiced bool
+	voiced Voicing
 }
 
+type Consonants []Consonant
+
 // NewConsonant does the obvious
-func NewConsonant(code rune, voiced bool, point ArticulationPoint, method ArticulationMethod) Consonant {
+func NewConsonant(code rune, voiced int, point ArticulationPoint, method ArticulationMethod) Consonant {
 	return Consonant{
 		code:   code,
-		voiced: voiced,
+		voiced: Voicing(voiced),
 		point:  point,
 		method: method,
 	}
@@ -56,4 +72,62 @@ func NewConsonant(code rune, voiced bool, point ArticulationPoint, method Articu
 // IPA character
 func (c Consonant) Char() rune {
 	return c.code
+}
+
+func (consonants Consonants) Filter(attrs ...interface{}) Consonants {
+	// Zero values indicate that the specific attribute is not set
+	var point ArticulationPoint
+	var method ArticulationMethod
+	var voicing Voicing
+
+	for _, attr := range attrs {
+		switch attr.(type) {
+		case Voicing:
+			voicing = attr.(Voicing)
+		case ArticulationPoint:
+			point = attr.(ArticulationPoint)
+		case ArticulationMethod:
+			method = attr.(ArticulationMethod)
+		}
+	}
+
+	var filtered Consonants
+
+	for _, c := range consonants {
+		// Filters
+		if point > 0 && c.point != point {
+			continue
+		}
+		if method > 0 && c.method != method {
+			continue
+		}
+		if voicing > 0 && c.voiced != voicing {
+			continue
+		}
+
+		filtered = append(filtered, c)
+	}
+
+	return filtered
+
+	// Filtering ordered from least broad to most broad
+
+	// if point > 0 {
+	// 	var newList Consonants
+	// 	for _, c := range filterList {
+	// 		if c.point == point {
+	// 			newList = append(newList, c)
+	// 		}
+	// 	}
+	// 	filterList = newList
+	// }
+
+	// if method > 0 {
+	// 	var newList Consonants
+	// 	for _, c := range filterList {
+	// 		if c.method == method {
+	// 			newList = append(newList, c)
+	// 		}
+	// 	}
+	// 	filterList = newList
 }
