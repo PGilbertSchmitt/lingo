@@ -20,7 +20,7 @@ go_list.write("\treturn []Consonant{\n")
 CSV.foreach("./consonants.txt") do |row|
     point = row[0].strip
     method = row[1].strip
-    voiced = row[2].strip == 'T' ? "true" : "false"
+    voiced = row[2].strip == 'T' ? 1 : 2
     code = row[3].strip
 
     go_list.write("\t\tNewConsonant(\n")
@@ -42,7 +42,7 @@ go_list.write("\treturn []Vowel{\n")
 CSV.foreach("./vowels.txt") do |row|
     openness = row[0].strip
     frontness = row[1].strip
-    rounded = row[2].strip == 'T' ? "true" : "false"
+    rounded = row[2].strip == 'T' ? 1 : 2
     code = row[3].strip
 
     go_list.write("\t\tNewVowel(\n")
