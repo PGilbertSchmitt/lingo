@@ -1,0 +1,14 @@
+# SYLLABLES
+cv
+cvc
+
+# CONSONANTS
+t 10
+p 20
+ʁ 15
+ʃ 5
+
+# VOWELS
+a 16
+e 5
+
