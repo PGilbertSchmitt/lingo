@@ -26,27 +26,51 @@ While C/C++ would have worked (eventually), there are many aspects of string man
 
 Will you get off my back, Alec?
 
-## Phonology
+## Input File
 
-The configuration rules are as follows:
+Lingo accepts a single argument at the moment, the file containing the rules for how syllables are built. The format is specific, but flexible. An example can be found in [this example file](example-input.txt).
 
-### Phonetic Inventory
+The file should have three headers, all in uppercase and preceded by an octathorpe (#) and a space ( ). Every line after the header until a space or EOF is considered to be part of that section. The three headers are:
 
-A list of phones and their weights. It's not yet known how these phones will be interpreted. It could be through their unicode IPA character, or their characteristics ("Voiced Bilabial Fricative"), or some other identifier.
+- Syllables
+- Consonsants
+- Vowels
 
-### Syllable Composition
+#### SYLLABLES
 
-A list of ways that a syllable can be constructed, using the common form of:
+All lines after `# SYLLABLES` should be of the common form:
 
-`cccvccc`
+```Text
+cccvccc
+vvcc
+cv
+```
 
-`ccvcc`
+It accepts any valid number of c's, v's, and more c's. The interpreter for this set will only look at those groups, based around where the first v appears, so anything else will be ignored. For example, `ccvcccvvc` will be converted into `ccvccc`, and `vvccv` will be converted into `vvcc`
 
-`cv`
+#### CONSONANTS
+
+A list of consonants and their weights. Each consonant should be in it's IPA character representation like so
+
+```Text
+t 10
+p 20
+ʁ 15
+ɸ 5
+```
+
+#### VOWELS
+
+Exactly the same as consonants.
+
+```Text
+a 16
+e 5
+```
 
 ### Replacement Rules
 
-I'm sure these rules exist in linguistics proper, but I'm specifically using a rule format similar to the Sound Change Applier found here: http://www.zompist.com/sca2.html
+Eventually, the file will also include replacement rules for generated word strings. I'm sure these rules exist in linguistics proper, but I'm specifically using a rule format similar to the Sound Change Applier found here: http://www.zompist.com/sca2.html
 
 The way we're designing this is probably going to be a little more complex, but should give you better control over your output.
 
@@ -54,9 +78,9 @@ The way we're designing this is probably going to be a little more complex, but 
 
 Very broadly: the roadmap looks thusly:
 
+[x] Accept configuration file  
 [ ] Generate initial sequences  
 [ ] Apply rules  
-[ ] Accept configuration file  
 [ ] Generate words  
 
 ## hardcode.rb
