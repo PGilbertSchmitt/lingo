@@ -74,6 +74,7 @@ func (c Consonant) Char() rune {
 	return c.code
 }
 
+// Filter takes attributes of the method or point of articulation, and voicing, and returns all consonants that share that attribute. Using all three attributes guarantees that you will only receive one consonant. This assumes the phonebank is untouched, as there are no two phones in that file that share all three attributes. This will change if more attributes are considered, such as aspiration.
 func (consonants Consonants) Filter(attrs ...interface{}) Consonants {
 	// Zero values indicate that the specific attribute is not set
 	var point ArticulationPoint
@@ -109,25 +110,4 @@ func (consonants Consonants) Filter(attrs ...interface{}) Consonants {
 	}
 
 	return filtered
-
-	// Filtering ordered from least broad to most broad
-
-	// if point > 0 {
-	// 	var newList Consonants
-	// 	for _, c := range filterList {
-	// 		if c.point == point {
-	// 			newList = append(newList, c)
-	// 		}
-	// 	}
-	// 	filterList = newList
-	// }
-
-	// if method > 0 {
-	// 	var newList Consonants
-	// 	for _, c := range filterList {
-	// 		if c.method == method {
-	// 			newList = append(newList, c)
-	// 		}
-	// 	}
-	// 	filterList = newList
 }
