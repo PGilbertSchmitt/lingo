@@ -46,7 +46,7 @@ vvcc
 cv
 ```
 
-It accepts any valid number of c's, v's, and more c's. The interpreter for this set will only look at those groups, based around where the first v appears, so anything else will be ignored. For example, `ccvcccvvc` will be converted into `ccvccc`, and `vvccv` will be converted into `vvcc`
+It accepts any valid number of c's, v's, and more c's. As the interpreter is very simple, if there are forms such as `ccvvccvv`, it will not work as intended. There should only be one set of v's.
 
 #### CONSONANTS
 
