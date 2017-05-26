@@ -1,10 +1,23 @@
 package phonology
 
+import (
+	"bytes"
+)
+
 // Syllable contains the broad definition of a syllable
 type Syllable struct {
-	onset   []Consonant
-	nucleus []Vowel
-	coda    []Consonant
+	onset   Consonants
+	nucleus Vowels
+	coda    Consonants
+}
+
+// NewSyllable creates a new syllable from its constituent parts
+func NewSyllable(onset Consonants, nucleus Vowels, coda Consonants) Syllable {
+	return Syllable{
+		onset:   onset,
+		nucleus: nucleus,
+		coda:    coda,
+	}
 }
 
 // Word can be any number of syllables
@@ -29,4 +42,17 @@ func (w Word) PhoneList() []Phone {
 	}
 
 	return phones
+}
+
+func (w Word) WordString() string {
+	phoneList := w.PhoneList()
+	var buffer bytes.Buffer
+	var phone Phone
+
+	for len(phoneList) > 0 {
+		phone, phoneList = phoneList[0], phoneList[1:]
+		buffer.WriteString(string(phone.Char()))
+	}
+
+	return buffer.String()
 }
