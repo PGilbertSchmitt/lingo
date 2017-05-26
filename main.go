@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"bufio"
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -44,6 +45,36 @@ const (
 
 // This represents a syllable's composition
 type composition []composite
+
+func (comp composition) generateSyllable(consonants, vowels ph.WeightedPhones) ph.Syllable {
+	copyComp := make(composition, len(comp))
+	copy(copyComp, comp)
+
+	var curComposite composite
+	afterVowels := false
+
+	var newOnset, newCoda ph.Consonants
+	var newNucleus ph.Vowels
+
+	for {
+		// Shifting
+		curComposite, copyComp = copyComp[0], copyComp[1:]
+		if curComposite == c {
+			if afterVowels {
+				newOnset = append(newOnset, consonants.RandomPhone().(ph.Consonant))
+			} else {
+				newCoda = append(newCoda, consonants.RandomPhone().(ph.Consonant))
+			}
+		} else if curComposite == v {
+			newNucleus = append(newNucleus, vowels.RandomPhone().(ph.Vowel))
+		}
+		if len(copyComp) == 0 {
+			break
+		}
+	}
+
+	return ph.NewSyllable(newOnset, newNucleus, newCoda)
+}
 
 func main() {
 	// To ensure "true" randomness when pulling phones
@@ -137,4 +168,16 @@ func main() {
 		weightedVowels.AddPhone(ph.Phone(vowelMap[char]), weight)
 	}
 	// weightedVowels is now able to pull any vowel randomly
+
+	/* Generating random syllables */
+
+	for x := 0; x < 30; x++ {
+		idx := int(rand.Float64() * float64(len(syllableRules)))
+		comp := syllableRules[idx]
+
+		syllable := comp.generateSyllable(weightedConsonants, weightedVowels)
+		var word ph.Word
+		word = append(word, syllable)
+		fmt.Printf("/%s/\n", word.WordString())
+	}
 }
