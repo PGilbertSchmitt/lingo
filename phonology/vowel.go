@@ -45,6 +45,9 @@ type Vowel struct {
 	rounded   Roundness
 }
 
+// Vowels is self explanitory
+type Vowels []Vowel
+
 // NewVowel does what you think it does
 func NewVowel(code rune, rounded int, frontness Frontness, openness Openness) Vowel {
 	return Vowel{
