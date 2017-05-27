@@ -1,16 +1,15 @@
 package main
 
 import (
-	ph "lingwish/phonology"
-	"math/rand"
-	"strings"
-	"time"
-
 	"bufio"
 	"fmt"
+	ph "lingwish/phonology"
 	"log"
+	"math/rand"
 	"os"
 	"strconv"
+	"strings"
+	"time"
 )
 
 type mode int
@@ -80,12 +79,13 @@ func main() {
 	// To ensure "true" randomness when pulling phones
 	rand.Seed(int64(time.Now().Nanosecond()))
 
-	/* Getting all info from input file */
-
-	inputName := os.Args[1]
-	if inputName == "" {
-		log.Fatal("No file given")
+	// Getting all info from input file
+	settings, err := grabOptions()
+	if err != nil {
+		log.Fatal(err)
 	}
+
+	inputName := settings.filename
 	configFile, err := os.Open(inputName)
 	if err != nil {
 		log.Fatal(err)
