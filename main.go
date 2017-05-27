@@ -169,15 +169,26 @@ func main() {
 	}
 	// weightedVowels is now able to pull any vowel randomly
 
-	/* Generating random syllables */
+	/* Generating random words */
 
-	for x := 0; x < 30; x++ {
-		idx := int(rand.Float64() * float64(len(syllableRules)))
-		comp := syllableRules[idx]
+	var wordList []ph.Word
 
-		syllable := comp.generateSyllable(weightedConsonants, weightedVowels)
+	for wordNum := 0; wordNum < settings.wordCount; wordNum++ {
 		var word ph.Word
-		word = append(word, syllable)
+
+		for sylNum := 0; sylNum < settings.syllableCount; sylNum++ {
+			// Pick syllable rule at random
+			idx := int(rand.Float64() * float64(len(syllableRules)))
+			comp := syllableRules[idx]
+
+			syllable := comp.generateSyllable(weightedConsonants, weightedVowels)
+			word = append(word, syllable)
+		}
+
+		wordList = append(wordList, word)
+	}
+
+	for _, word := range wordList {
 		fmt.Printf("/%s/\n", word.WordString())
 	}
 }
