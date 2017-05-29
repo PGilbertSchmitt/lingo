@@ -153,7 +153,7 @@ func main() {
 			idx := int(rand.Float64() * float64(len(syllableRules)))
 			comp := syllableRules[idx]
 
-			syllable := comp.generateSyllable(weightedConsonants, weightedVowels)
+			syllable := comp.GenerateSyllable(weightedConsonants, weightedVowels)
 			word = append(word, syllable)
 		}
 
