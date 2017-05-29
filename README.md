@@ -80,7 +80,9 @@ Very broadly: the roadmap looks thusly:
 
 [x] Accept configuration file  
 [ ] Generate initial sequences  
-[ ] Apply rules  
+Apply rules:  
+    - [ ] User generated replacement rules  
+    - [ ] Sonority filter  
 [ ] Generate words  
 
 ## hardcode.rb
