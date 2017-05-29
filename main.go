@@ -45,36 +45,6 @@ const (
 // This represents a syllable's composition
 type composition []composite
 
-func (comp composition) generateSyllable(consonants, vowels ph.WeightedPhones) ph.Syllable {
-	copyComp := make(composition, len(comp))
-	copy(copyComp, comp)
-
-	var curComposite composite
-	afterVowels := false
-
-	var newOnset, newCoda ph.Consonants
-	var newNucleus ph.Vowels
-
-	for {
-		// Shifting
-		curComposite, copyComp = copyComp[0], copyComp[1:]
-		if curComposite == c {
-			if afterVowels {
-				newOnset = append(newOnset, consonants.RandomPhone().(ph.Consonant))
-			} else {
-				newCoda = append(newCoda, consonants.RandomPhone().(ph.Consonant))
-			}
-		} else if curComposite == v {
-			newNucleus = append(newNucleus, vowels.RandomPhone().(ph.Vowel))
-		}
-		if len(copyComp) == 0 {
-			break
-		}
-	}
-
-	return ph.NewSyllable(newOnset, newNucleus, newCoda)
-}
-
 func main() {
 	// To ensure "true" randomness when pulling phones
 	rand.Seed(int64(time.Now().Nanosecond()))
@@ -132,6 +102,7 @@ func main() {
 
 	var weightedConsonants ph.WeightedPhones
 
+	// Turn loop into factory method
 	for _, consonant := range userConsonants {
 		pieces := strings.Fields(consonant)
 		char := pieces[0]
@@ -156,6 +127,7 @@ func main() {
 
 	var weightedVowels ph.WeightedPhones
 
+	// Turn loop into factory method
 	for _, vowel := range userVowels {
 		pieces := strings.Fields(vowel)
 		char := pieces[0]

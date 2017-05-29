@@ -4,22 +4,6 @@ import (
 	"bytes"
 )
 
-// Syllable contains the broad definition of a syllable
-type Syllable struct {
-	onset   Consonants
-	nucleus Vowels
-	coda    Consonants
-}
-
-// NewSyllable creates a new syllable from its constituent parts
-func NewSyllable(onset Consonants, nucleus Vowels, coda Consonants) Syllable {
-	return Syllable{
-		onset:   onset,
-		nucleus: nucleus,
-		coda:    coda,
-	}
-}
-
 // Word can be any number of syllables
 type Word []Syllable
 
