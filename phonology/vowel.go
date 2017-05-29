@@ -1,5 +1,15 @@
 package phonology
 
+// Roundness is the roundness of a vowel
+type Roundness int
+
+// Three values for roundness
+const (
+	Nilrounding Roundness = iota
+	Rounded
+	Unrounded
+)
+
 // Frontness describes the location of a vowel sound
 // in the mound
 type Frontness int
@@ -33,7 +43,20 @@ type Vowel struct {
 	code      rune
 	frontness Frontness
 	openness  Openness
-	rounded   bool
+	rounded   Roundness
+}
+
+// Vowels is self explanitory
+type Vowels []Vowel
+
+// NewVowel does what you think it does
+func NewVowel(code rune, rounded int, frontness Frontness, openness Openness) Vowel {
+	return Vowel{
+		code:      code,
+		rounded:   Roundness(rounded),
+		frontness: frontness,
+		openness:  openness,
+	}
 }
 
 // Char returns the unicode code point for the appropriate

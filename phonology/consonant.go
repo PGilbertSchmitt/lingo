@@ -1,11 +1,23 @@
 package phonology
 
+// Voicing is the voicing of a consonant
+type Voicing int
+
+// The different voicings of a consonant. Nilvoice represents irrelevant voicing
+const (
+	Nilvoice Voicing = iota
+	Voiced
+	Unvoiced
+)
+
 // ArticulationPoint describes where the sound is made
 type ArticulationPoint int
 
-// This enum represents all reasonable points of articulation
+// This enum represents all reasonable points of articulation. Nopoint
+// is used for filtering
 const (
-	Bilabial ArticulationPoint = iota
+	Nopoint ArticulationPoint = iota
+	Bilabial
 	Labiodental
 	Dental
 	Alveolar
@@ -21,9 +33,11 @@ const (
 // ArticulationMethod describes how the sound is made
 type ArticulationMethod int
 
-// This enum represents all reasonable methods of articulation
+// This enum represents all reasonable methods of articulation. Nomethod
+// is used for filtering
 const (
-	Plosive ArticulationMethod = iota
+	Nomethod ArticulationMethod = iota
+	Plosive
 	Nasal
 	Trill
 	Flap
@@ -36,18 +50,22 @@ const (
 // Consonant represents a minimal pulmonic consonant sound
 // (as per Wikipedia's IPA table)
 type Consonant struct {
-	code    rune
-	method  ArticulationMethod
-	point   ArticulationPoint
-	voicing bool
+	code   rune
+	method ArticulationMethod
+	point  ArticulationPoint
+	voiced Voicing
 }
 
-// New returns a new Consonant
-func New(method ArticulationMethod, point ArticulationPoint, voicing bool) Consonant {
+// Consonants is extra self explanitory
+type Consonants []Consonant
+
+// NewConsonant does the obvious
+func NewConsonant(code rune, voiced int, point ArticulationPoint, method ArticulationMethod) Consonant {
 	return Consonant{
-		method:  method,
-		point:   point,
-		voicing: voicing,
+		code:   code,
+		voiced: Voicing(voiced),
+		point:  point,
+		method: method,
 	}
 }
 
@@ -55,4 +73,42 @@ func New(method ArticulationMethod, point ArticulationPoint, voicing bool) Conso
 // IPA character
 func (c Consonant) Char() rune {
 	return c.code
+}
+
+// Filter takes attributes of the method or point of articulation, and voicing, and returns all consonants that share that attribute. Using all three attributes guarantees that you will only receive one consonant. This assumes the phonebank is untouched, as there are no two phones in that file that share all three attributes. This will change if more attributes are considered, such as aspiration.
+func (consonants Consonants) Filter(attrs ...interface{}) Consonants {
+	// Zero values indicate that the specific attribute is not set
+	var point ArticulationPoint
+	var method ArticulationMethod
+	var voicing Voicing
+
+	for _, attr := range attrs {
+		switch attr.(type) {
+		case Voicing:
+			voicing = attr.(Voicing)
+		case ArticulationPoint:
+			point = attr.(ArticulationPoint)
+		case ArticulationMethod:
+			method = attr.(ArticulationMethod)
+		}
+	}
+
+	var filtered Consonants
+
+	for _, c := range consonants {
+		// Filters
+		if point > 0 && c.point != point {
+			continue
+		}
+		if method > 0 && c.method != method {
+			continue
+		}
+		if voicing > 0 && c.voiced != voicing {
+			continue
+		}
+
+		filtered = append(filtered, c)
+	}
+
+	return filtered
 }

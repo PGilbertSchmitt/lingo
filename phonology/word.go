@@ -1,11 +1,8 @@
 package phonology
 
-// Syllable contains the broad definition of a syllable
-type Syllable struct {
-	onset   []Consonant
-	nucleus []Vowel
-	coda    []Consonant
-}
+import (
+	"bytes"
+)
 
 // Word can be any number of syllables
 type Word []Syllable
@@ -29,4 +26,18 @@ func (w Word) PhoneList() []Phone {
 	}
 
 	return phones
+}
+
+// WordString returns the unicode word if constructed as such
+func (w Word) WordString() string {
+	phoneList := w.PhoneList()
+	var buffer bytes.Buffer
+	var phone Phone
+
+	for len(phoneList) > 0 {
+		phone, phoneList = phoneList[0], phoneList[1:]
+		buffer.WriteString(string(phone.Char()))
+	}
+
+	return buffer.String()
 }
