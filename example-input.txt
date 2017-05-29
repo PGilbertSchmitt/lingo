@@ -1,32 +1,19 @@
 # SYLLABLES
 cv
-cvc
 
 # CONSONANTS
 p 12
-b 14
 t 10
-d 9
 k 7
-ɡ 7
-ŋ 12
 n 10
 ɾ 14
 m 20
-θ 4
-ð 2
-s 13
 z 18
-ʃ 5
-ʒ 3
 l 16
-h 4
-ʕ 6
 
 # VOWELS
 i 10
 ə 15
-u 11
 e 13
-æ 9
+w 5
 
