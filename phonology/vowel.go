@@ -1,8 +1,9 @@
 package phonology
 
-// Roundness
+// Roundness is the roundness of a vowel
 type Roundness int
 
+// Three values for roundness
 const (
 	Nilrounding Roundness = iota
 	Rounded

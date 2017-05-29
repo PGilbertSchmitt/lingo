@@ -56,6 +56,7 @@ type Consonant struct {
 	voiced Voicing
 }
 
+// Consonants is extra self explanitory
 type Consonants []Consonant
 
 // NewConsonant does the obvious

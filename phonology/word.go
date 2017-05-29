@@ -28,6 +28,7 @@ func (w Word) PhoneList() []Phone {
 	return phones
 }
 
+// WordString returns the unicode word if constructed as such
 func (w Word) WordString() string {
 	phoneList := w.PhoneList()
 	var buffer bytes.Buffer
