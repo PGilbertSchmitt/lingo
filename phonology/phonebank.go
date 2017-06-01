@@ -3,8 +3,8 @@
 package phonology
 
 // AllConsonants returns all reasonable pulmonic consonants
-func AllConsonants() []Consonant {
-	return []Consonant{
+func AllConsonants() Consonants {
+	return Consonants{
 		NewConsonant(
 			'\u0288',
 			2,
@@ -363,8 +363,8 @@ func AllConsonants() []Consonant {
 }
 
 // AllVowels returns all reasonable vowels
-func AllVowels() []Vowel {
-	return []Vowel{
+func AllVowels() Vowels {
+	return Vowels{
 		NewVowel(
 			'\u026F',
 			2,

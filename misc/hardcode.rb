@@ -14,8 +14,8 @@ go_list.write("package phonology\n\n")
 
 # Consonants
 go_list.write("// AllConsonants returns all reasonable pulmonic consonants\n")
-go_list.write("func AllConsonants() []Consonant {\n")
-go_list.write("\treturn []Consonant{\n")
+go_list.write("func AllConsonants() Consonants {\n")
+go_list.write("\treturn Consonants{\n")
 
 CSV.foreach("./consonants.txt") do |row|
     point = row[0].strip
@@ -36,8 +36,8 @@ go_list.write("\t}\n}\n\n")
 
 # Vowels
 go_list.write("// AllVowels returns all reasonable vowels\n")
-go_list.write("func AllVowels() []Vowel {\n")
-go_list.write("\treturn []Vowel{\n")
+go_list.write("func AllVowels() Vowels {\n")
+go_list.write("\treturn Vowels{\n")
 
 CSV.foreach("./vowels.txt") do |row|
     openness = row[0].strip
