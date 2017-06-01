@@ -102,7 +102,6 @@ func main() {
 
 	var weightedConsonants ph.WeightedPhones
 
-	// Turn loop into factory method
 	for _, consonant := range userConsonants {
 		pieces := strings.Fields(consonant)
 		char := pieces[0]
@@ -127,7 +126,6 @@ func main() {
 
 	var weightedVowels ph.WeightedPhones
 
-	// Turn loop into factory method
 	for _, vowel := range userVowels {
 		pieces := strings.Fields(vowel)
 		char := pieces[0]
