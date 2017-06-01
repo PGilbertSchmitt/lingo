@@ -63,7 +63,7 @@ func main() {
 	defer configFile.Close()
 
 	mode := emptyMode
-	syllableRules := []composition{}
+	syllableRules := []ph.Composition{}
 	userConsonants := []string{}
 	userVowels := []string{}
 
@@ -81,9 +81,9 @@ func main() {
 		case vowelMode:
 			userVowels = append(userVowels, line)
 		case syllableMode:
-			var newRule composition
+			var newRule ph.Composition
 			for _, char := range line {
-				newRule = append(newRule, composite(char))
+				newRule = append(newRule, ph.Composite(char))
 			}
 			syllableRules = append(syllableRules, newRule)
 		}
@@ -160,5 +160,24 @@ func main() {
 
 	for _, word := range wordList {
 		fmt.Printf("/%s/\n", word.WordString())
+	}
+
+	bilabial := allConsonants.Filter(ph.Bilabial)
+	voiced := allConsonants.Filter(ph.Voiced)
+
+	bMap, vMap := make(ph.PSet), make(ph.PSet)
+
+	for _, b := range bilabial {
+		bMap[b.Char()] = true
+	}
+
+	for _, v := range voiced {
+		vMap[v.Char()] = true
+	}
+
+	bv := ph.And(bMap, vMap)
+
+	for k, v := range bv {
+		fmt.Println("key: ", string(k), "and value: ", v)
 	}
 }
