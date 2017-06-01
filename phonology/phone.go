@@ -10,6 +10,11 @@ type Phone interface {
 	Char() rune
 }
 
+// Matchable should cover a Consonant, Vowel, or Set of phones
+type Matchable interface {
+	Match(Phone) bool
+}
+
 // WeightedPhones wraps any held phones with their respective weights
 type WeightedPhones struct {
 	phones      []Phone

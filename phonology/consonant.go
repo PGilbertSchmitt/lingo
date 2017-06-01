@@ -112,3 +112,8 @@ func (consonants Consonants) Filter(attrs ...interface{}) Consonants {
 
 	return filtered
 }
+
+// Match checks if the given phone is the same
+func (c Consonant) Match(p Phone) bool {
+	return c.Char() == p.Char()
+}

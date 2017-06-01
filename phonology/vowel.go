@@ -64,3 +64,8 @@ func NewVowel(code rune, rounded int, frontness Frontness, openness Openness) Vo
 func (v Vowel) Char() rune {
 	return v.code
 }
+
+// Match checks if the given phone is the same
+func (v Vowel) Match(p Phone) bool {
+	return v.Char() == p.Char()
+}
